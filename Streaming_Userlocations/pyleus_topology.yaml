@@ -1,0 +1,39 @@
+# Userlocations Topology
+# Author:    xebin
+# UpdatedAt: Fri, 28 Oct, 2015
+# 
+name: Streaming_Topology
+workers: 1
+
+
+topology:
+    - spout:
+        name: mongo_userlocations
+        module: Streaming_Topology.test_spout
+
+    - bolt:
+        name: classfierByUid_bolt
+        module: Streaming_Topology.classfierByUid_bolt
+        groupings:
+            - shuffle_grouping:
+                component: mongo_userlocations
+
+    - bolt:
+        name: collector_filter
+        module: Streaming_Topology.uls_collector_filter_bolt
+        groupings:
+            - fields_grouping:
+                component: classfierByUid_bolt
+                fields:
+                    - userId
+
+    - bolt:
+        name: new_pois_finding
+        module: Streaming_Topology.new_pois_finding_bolt
+        groupings:
+            - fields_grouping:
+                component: collector_filter
+                fields:
+                    - userId
+
+

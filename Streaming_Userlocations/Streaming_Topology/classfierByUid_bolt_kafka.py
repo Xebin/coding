@@ -1,0 +1,40 @@
+__author__ = 'xebin'
+import logging
+import json
+import time
+from pyleus.storm import SimpleBolt
+
+from parameters import STORM_POI_USERS
+
+log = logging.getLogger("classifierById")
+
+class classifierByUid(SimpleBolt):
+    OUTPUT_FIELDS = ["userId", "ul"]
+
+    def process_tuple(self, tup):
+        _raw_data_str = tup.values[0]
+        log.debug('---get to classifier--location-:'+str(_raw_data_str['location']))
+
+        _raw_data_dict = eval(_raw_data_str['location'])#json.dumps(_raw_data_str)
+        _user_id=_raw_data_dict['user_id']
+
+        #emit : no filter users
+        self.emit((_user_id, _raw_data_dict))
+
+
+        # # TODO: filter users.
+        # if _user_id in STORM_POI_USERS:
+        #     self.emit((_user_id, _raw_data_dict))
+        # else:
+        #     log.debug('user filtered---')
+
+if __name__ == '__main__':
+    logging.basicConfig(
+        level=logging.DEBUG,
+        filename='/logs/uls_streaming/bolt/classifier_bolt.log',
+        format="%(message)s",
+        filemode='a',
+    )
+
+    classifierByUid().run()
+
