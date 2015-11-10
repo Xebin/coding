@@ -43,7 +43,7 @@ topology:
 
     - bolt:
         name: classfierByUid_bolt
-        module: Streaming_Topology.classfierByUid_bolt
+        module: Streaming_Topology.classfierByUid_bolt_kafka
         groupings:
             - shuffle_grouping:
                 component: kafka_user_location
