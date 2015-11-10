@@ -77,21 +77,23 @@ class newPoisFindingBolt(SimpleBolt):
             coordinate = center_evidences[0]  # u poi coordinate
 
             if coordinate == None or len(coordinate) == 0:
-                print 'fucked'
+                log.debug('--no coordinate...')
 
             evidences = center_evidences[1]  # user locations
 
             if cluster_type == 'poi_based':
                 poi_title = center_evidences[2]
+            elif cluster_type==CLUSTER_TYPE_STORM_POI_BASED:
+                poi_title = CLUSTER_TYPE_STORM_POI_BASED
             else:
-                poi_title = None
+                poi_title=None
 
 
             # Save new u_poi
             upoi_evidences = {}
             # get poi -> u_poi
-            pois = algo_utils.get_near_pois(request_id, uid, coordinate, CLUSTER_NEAR_POI_NUMBER)
-
+            # pois = algo_utils.get_near_pois(request_id, uid, coordinate, CLUSTER_NEAR_POI_NUMBER)
+            pois=av_dao.get_near_pois(coordinate,evidences)
             if pois == None or len(pois) == 0:
 
                 # print 'upoi dont have a poi coor:', coordinate, 'poi_title:', poi_title
@@ -109,7 +111,7 @@ class newPoisFindingBolt(SimpleBolt):
                 log.warn_no_poi_u_poi(request_id, upoi_evidences['u_poi'].id)
 
             else:
-                poi = pois[0]  # nearest poi
+                poi = pois[0] # nearest poi
                 poi_coordinate = [poi['location']['latitude'], poi['location']['latitude']]
 
                 upoi_evidences['u_poi'] = av_dao.save_u_poi(coordinate=coordinate,

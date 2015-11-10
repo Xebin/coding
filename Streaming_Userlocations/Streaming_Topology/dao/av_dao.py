@@ -16,7 +16,7 @@ from .. import config
 
 from firebase import firebase
 import random
-from ..utils import time_utils
+from ..utils import time_utils,dis_calculator
 
 firebase = firebase.FirebaseApplication(config.FIRE_BASE_URL,
                                         None)
@@ -341,6 +341,25 @@ def get_near_poi(user_id, timestamp, coordinate):
 
     return content_dict['results']['parse_poi'][0]['pois'], request_id
 
+
+# vote nearrest upoi####
+def get_near_pois(center,uls):
+    upois_dis=[]
+    ups=[]
+    upois=[]
+    for ul in uls:
+        upois.append(ul['pois']['pois'][0])
+        if len(ul['pois']['pois'])>1:
+           upois.append(ul['pois']['pois'][1])
+    for upoi in upois:
+        coor=[upoi['location']['latitude'],upoi['location']['longitude']]
+        dis=dis_calculator.distance_baidu_caculate(center,coor)
+        upois_dis.append([upoi,dis])
+    upois_dis=sorted(upois_dis, key=lambda k: k[1])
+    for up in upois_dis:
+        ups.append(up[0])
+    ups=ups[0:param.CLUSTER_NEAR_POI_NUMBER]
+    return ups
 
 def get_marked_UserLocation(u_poi_id, limit=100):
     upoi_p = get_pointer('u_poi', u_poi_id)
