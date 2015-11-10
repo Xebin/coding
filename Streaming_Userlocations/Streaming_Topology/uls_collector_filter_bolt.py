@@ -42,12 +42,12 @@ class ulsCollectorFilterBolt(SimpleBolt):
                 userlocations=self.bucket[userId]
                 self.emit((userId, userlocations))
                 self.bucket[userId]=[]
-                ul_distance_limit=0
+                self.ul_distance_limit=0
                 log.debug('uls-collec-filter-bolt  emit-----: '+str(userId)+'emit bucket length:'+str(len(userlocations)))
             else:
                 self.bucket[userId]=[]
                 log.debug('--filter --samples number-: '+str(samples_number)+'---uid--'+str(userId))
-                ul_distance_limit=0
+                self.ul_distance_limit=0
 
         #time limit
         if duration<STORM_POI_DURATION_LIMIT or duration==STORM_POI_DURATION_LIMIT :
