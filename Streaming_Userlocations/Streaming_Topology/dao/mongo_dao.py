@@ -155,7 +155,7 @@ def saveMarkedUserLocation(request_id,
 
     # mark user location with u poi id AVID, u poi visit id AVID, user location id MID
     # field name with id is AVID, without id is a mongo pointer
-    print user_location_id, timestamp, geo_point, u_poi_id, u_poi_visit_log_id
+    # print user_location_id, timestamp, geo_point, u_poi_id, u_poi_visit_log_id
 
     data = {
         'u_poi_id': u_poi_id,

@@ -1,17 +1,13 @@
-import sys
-sys.path.append('/data/pycharms/test/test.storm.ueserlocation/Streaming_Userlocations/Streaming_Topology/config')
-sys.path.append('/data/pycharms/test/test.storm.ueserlocation/Streaming_Userlocations/Streaming_Topology/config/parameters.py')
 import random
 import numpy as np
 from .. import parameters as param
-from geopy import distance
+from geopy.distance import vincenty, great_circle
 from ..dao import av_dao
 import logger
 
-
 def geo_distance_km(coor1, coor2):
-    return distance.vincenty(coor1, coor2).kilometers
-
+    return great_circle(coor1, coor2).kilometers
+    # return vincenty(coor1, coor2).kilometers
 
 def near_u_poi(p1, p2, thres=param.U_POI_DIST_THRES):
     # print 'geo_distance_km:',geo_distance_km(p1, p2)
@@ -35,7 +31,7 @@ def time_close(ts1, ts2):
     if str(ts1) != str(ts2) or str(ts1) != 13:
         raise ValueError('timestamp error, should be equal length and 13 digits', ts1, ts2)
 
-    if abs(ts1 - ts2) < param.TIME_CLOSE_THRES:
+    if abs(ts1 - ts2) < param.TIME_CLOSE_THRES_MS:
         return True
     else:
         return False
@@ -56,26 +52,30 @@ def check_new_u_poi(new_list, old_list):
 
 
 # NOTE this is a wrong way to average a coordinate cluster
-# def get_cluster_centers(data, labels):
-#     label_num = len(np.unique(labels))
-#     centers = np.zeros((label_num, 2))
-#     count = np.zeros(label_num)
-#
-#     result = {}
-#
-#     for coor, label in zip(data, labels):
-#         label = str(label)
-#
-#         if label not in result:
-#             result[label] = [0, 0]
-#         centers[label] += coor
-#         count[label] += 1
-#
-#     result = {}
-#     for i in range(0, label_num):
-#         result[str(i)] = centers[i] / count[i]
-#
-#     return result
+def get_cluster_centers(data, labels):
+    label_num = len(np.unique(labels))
+    centers = np.zeros((label_num, 2))
+    count = np.zeros(label_num)
+
+    result = {}
+
+    for coor, label in zip(data, labels):
+        # NOTE label from cluster starts from -1
+        # NOTE before python 2.7.10 or numpy 1.8.0
+        #      the ndarray can be accessed by string index, '0' and 0 are equivalent
+        #      not any more
+        # NOTE label is string
+
+        if label not in result:
+            result[label] = [0, 0]
+        centers[int(label)] += coor
+        count[int(label)] += 1
+
+    result = {}
+    for i in range(0, label_num):
+        result[str(i)] = centers[i] / count[i]
+
+    return result
 
 
 def sample_by_timestamp(av_objects, ts_key, sample_number, sort=True):
