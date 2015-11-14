@@ -16,7 +16,7 @@ from .. import config
 
 from firebase import firebase
 import random
-from ..utils import time_utils,dis_calculator
+from ..utils import time_utils,algo_utils
 
 firebase = firebase.FirebaseApplication(config.FIRE_BASE_URL,
                                         None)
@@ -353,7 +353,7 @@ def get_near_pois(center,uls):
            upois.append(ul['pois']['pois'][1])
     for upoi in upois:
         coor=[upoi['location']['latitude'],upoi['location']['longitude']]
-        dis=dis_calculator.distance_baidu_caculate(center,coor)
+        dis=algo_utils.geo_distance_km(center,coor)
         upois_dis.append([upoi,dis])
     upois_dis=sorted(upois_dis, key=lambda k: k[1])
     for up in upois_dis:

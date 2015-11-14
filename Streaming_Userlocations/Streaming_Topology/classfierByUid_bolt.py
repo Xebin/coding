@@ -20,10 +20,10 @@ class classifierByUid(SimpleBolt):
         userlocation = _raw_data_str
 
         # TODO: filter users.
-        if _user_id in STORM_POI_USERS:
-            self.emit((_user_id, userlocation))
-        else:
-            log.debug('user filtered---')
+        # if _user_id in STORM_POI_USERS:
+        self.emit((_user_id, userlocation))
+        # else:
+        #     log.debug('user filtered---')
 
 
 if __name__ == '__main__':
