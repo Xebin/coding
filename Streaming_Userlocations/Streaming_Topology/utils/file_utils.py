@@ -4,7 +4,7 @@ import json
 import uuid
 
 def save_json(save_path, data):
-    print 'save to:', save_path
+    # print 'save to:', save_path
     with open(save_path, 'w') as f:
         json.dump(data, f)
 

@@ -57,8 +57,8 @@ def filter_UserLocation_mongo(req_id, user_locations):
     return validated
 
 
-def data_cutoff_detection(user_location):
-    print 'data cut off detection'
+# def data_cutoff_detection(user_location):
+#     print 'data cut off detection'
 
 
 

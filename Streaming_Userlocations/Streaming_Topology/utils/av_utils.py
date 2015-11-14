@@ -14,14 +14,14 @@ def get_all(query, skip, result):
     try:
         found = query.find()
     except Exception:
-        print 'get all fucked, sleep for 2 sec'
+        # print 'get all fucked, sleep for 2 sec'
         sleep(2)
         found = query.find()
 
     if found and len(found) > 0:
         result.extend(found)
-        print 'av_utils get_all _class_name:', query._query_class._class_name, ' now result length:', len(
-            result), ' skipped:', skip
+        # print 'av_utils get_all _class_name:', query._query_class._class_name, ' now result length:', len(
+        #     result), ' skipped:', skip
         return get_all(query, skip + limit, result)
     else:
         return result
@@ -85,18 +85,18 @@ def distinct(query, distinct_field, existing_elements):
     distinct(query, distinct_field, existing_elements)
 
 
-if __name__ == '__main__':
-    import leancloud
-    import config as conf
+# if __name__ == '__main__':
+#     import leancloud
+#     import config as conf
+#
+#     leancloud.init(conf.AV_ID, conf.AV_KEY)
+#
+#     # get distinct user ids from AV
+#     from leancloud import Query, Object
+#
+#     # up = Object.extend('_User')
+#
+#     query = Query(Object.extend('UserLocation'))
+#     res = distinct(query, 'user', [], )
 
-    leancloud.init(conf.AV_ID, conf.AV_KEY)
-
-    # get distinct user ids from AV
-    from leancloud import Query, Object
-
-    # up = Object.extend('_User')
-
-    query = Query(Object.extend('UserLocation'))
-    res = distinct(query, 'user', [], )
-
-    print res
+    # print res

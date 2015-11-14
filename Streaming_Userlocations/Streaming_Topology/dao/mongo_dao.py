@@ -2,9 +2,7 @@ __author__ = 'xebin'
 from pymongo import MongoClient
 from ..utils import time_utils
 import filter
-import uuid
-import requests
-import json
+
 from bson.objectid import ObjectId
 from bson.dbref import DBRef
 from pymongo.son_manipulator import AutoReference, NamespaceInjector
@@ -196,9 +194,9 @@ def get_motion(uid, stop):
     return db.UserMotion.find({'timestamp': {'$gt': stop}, 'user_id': uid})
 
 
-
-if __name__ == '__main__':
-    print 'dao'
+#
+# if __name__ == '__main__':
+#     print 'dao'
     # set_event(1, '555e92e6e4b06e8bb85473ce', 1)
     # uid = '555e92e6e4b06e8bb85473ce'
     # print get_fb_user_home_office_status(uid)

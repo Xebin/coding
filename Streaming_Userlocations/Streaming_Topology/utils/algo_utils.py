@@ -1,9 +1,11 @@
+__author__ = 'xebin'
+
 import random
 import numpy as np
 from .. import parameters as param
 from geopy.distance import vincenty, great_circle
-from ..dao import av_dao
-import logger
+# from ..dao import av_dao
+# import logger
 
 def geo_distance_km(coor1, coor2):
     return great_circle(coor1, coor2).kilometers
@@ -87,26 +89,26 @@ def sample_by_timestamp(av_objects, ts_key, sample_number, sort=True):
     return sample
 
 
-def get_near_pois(req_id, uid, coordinate, near_poi_num=param.CLUSTER_NEAR_POI_NUMBER):
-    near_pois, poi_req_id = av_dao.get_near_poi(user_id=uid,
-                                             timestamp=param.FAKE_TS_FOR_API_POIS,
-                                             coordinate=coordinate)
-
-    # NOTE can not trust _distance, need to recalculate distance
-    # sorted_by_dist = __sort_by_distance(near_pois, coordinate)
-    # FUCK poi location is wrong, only thing can be trusted is _distance
-    if near_pois == None or len(near_pois) == 0:
-        return []
-
-    sorted_by_dist = sorted(near_pois, key=lambda k: k['_distance'])
-
-    logger.log_daily_cluster_poi_request(req_id, poi_req_id)
-
-    re = sorted_by_dist[0: near_poi_num]
-    if re == None or len(re) == 0:
-        print 'fuck'
-
-    return re
+# def get_near_pois(req_id, uid, coordinate, near_poi_num=param.CLUSTER_NEAR_POI_NUMBER):
+#     near_pois, poi_req_id = av_dao.get_near_poi(user_id=uid,
+#                                              timestamp=param.FAKE_TS_FOR_API_POIS,
+#                                              coordinate=coordinate)
+#
+#     # NOTE can not trust _distance, need to recalculate distance
+#     # sorted_by_dist = __sort_by_distance(near_pois, coordinate)
+#     # FUCK poi location is wrong, only thing can be trusted is _distance
+#     if near_pois == None or len(near_pois) == 0:
+#         return []
+#
+#     sorted_by_dist = sorted(near_pois, key=lambda k: k['_distance'])
+#
+#     logger.log_daily_cluster_poi_request(req_id, poi_req_id)
+#
+#     re = sorted_by_dist[0: near_poi_num]
+#     if re == None or len(re) == 0:
+#         print 'fuck'
+#
+#     return re
 
 
 def __sort_by_distance(near_pois, coordinate):
@@ -123,6 +125,6 @@ if __name__ == '__main__':
     #
     # get_near_pois(req_id, uid, coordinate, near_poi_num=param.CLUSTER_NEAR_POI_NUMBER):
     coor = [39.973476, 116.302475]
-    print get_near_pois('f', 'ff', coor)
+    # print get_near_pois('f', 'ff', coor)
 
     # time_close(11, 22)

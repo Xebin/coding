@@ -122,7 +122,7 @@ def ts_yesterday_begin(in_mil_sec=False):
     yesterday = yesterday.replace(minute = 0)
     yesterday = yesterday.replace(second = 0)
 
-    print 'tuple:', yesterday.timetuple()
+    # print 'tuple:', yesterday.timetuple()
     yesterday_ts = time.mktime(yesterday.timetuple())
     if not in_mil_sec:
         return int(yesterday_ts)
@@ -182,8 +182,8 @@ def bucket_by_date(avo):
 
     return bucket
 
-if __name__ == '__main__':
-    # print ts_yesterday_begin(True)
-    # print ts_yesterday_end(True)
-    # print is_weekday(1441332578000)
-    print ts_now()
+# if __name__ == '__main__':
+#     # print ts_yesterday_begin(True)
+#     # print ts_yesterday_end(True)
+#     # print is_weekday(1441332578000)
+#     print ts_now()

@@ -2,8 +2,8 @@ __author__ = 'xebin'
 
 from leancloud import Object, Query, GeoPoint
 from ..utils import av_utils
-
-from requests.exceptions import ReadTimeout
+from ..utils import time_utils
+from ..utils import algo_utils
 
 from .. import parameters as param
 from .. import config as conf
@@ -15,8 +15,6 @@ import json
 from .. import config
 
 from firebase import firebase
-import random
-from ..utils import time_utils,algo_utils
 
 firebase = firebase.FirebaseApplication(config.FIRE_BASE_URL,
                                         None)
@@ -187,7 +185,7 @@ def delete_u_poi_visit_log(user_id, ts_start=None, ts_end=None):
     #     query.destroy_all()
 
     for ele in query.find():
-        print ele
+        # print ele
         ele.destroy()
 
 
@@ -336,7 +334,7 @@ def get_near_poi(user_id, timestamp, coordinate):
     content_dict = json.loads(r.content)
 
     if 'pois' not in content_dict['results']['parse_poi'][0]:
-        print 'pois not in content_dict[results][parse_poi][0]'
+        # print 'pois not in content_dict[results][parse_poi][0]'
         return [], request_id
 
     return content_dict['results']['parse_poi'][0]['pois'], request_id
@@ -451,8 +449,8 @@ def get_fb_user_home_office_status(uid):
     return firebase.get('/notification/', uid)
 
 
-if __name__ == '__main__':
-    print 'dao'
+# if __name__ == '__main__':
+#     print 'dao'
     # set_event(1, '555e92e6e4b06e8bb85473ce', 1)
     # uid = '555e92e6e4b06e8bb85473ce'
     # print get_fb_user_home_office_status(uid)
