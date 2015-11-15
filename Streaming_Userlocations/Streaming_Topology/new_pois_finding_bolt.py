@@ -4,7 +4,7 @@ import logging
 from pyleus.storm import SimpleBolt
 import numpy as np
 from parameters import STORM_POI_DURATION_LIMIT,STORM_POI_SAMPLES_BUCKET_NUMBER,CLUSTER_TYPE_STORM_POI_BASED,CLUSTER_NEAR_POI_NUMBER
-from dao import av_dao,mongo_dao
+from dao import av_dao,mongo_dao,redis_dao
 log = logging.getLogger("new_poi_find_Bolt")
 from utils.algo_utils import near_u_poi
 from utils import algo_utils
@@ -38,7 +38,12 @@ class newPoisFindingBolt(SimpleBolt):
             log.debug('all_center--:'+str(center))
 
             # filter existing u_poi
-            u_pois = av_dao.get_user_u_pois(userId, CLUSTER_TYPE_STORM_POI_BASED)
+            u_pois=redis_dao.get_upois(userId)
+            if len(u_pois)==0:
+                u_pois = av_dao.get_user_u_pois(userId, CLUSTER_TYPE_STORM_POI_BASED)
+                redis_dao.insert_upois(u_pois)
+            u_pois=redis_dao.get_upois(userId)
+
             new_center_evidences_list = self.__filter_existed_centers(center_uls_list,u_pois)
 
             if len(new_center_evidences_list)!=0 and new_center_evidences_list!=None:
@@ -60,7 +65,7 @@ class newPoisFindingBolt(SimpleBolt):
             for upoi in u_pois:
                 center = center_evidence[0]
 
-                upoi_coor = [upoi.get('location').latitude, upoi.get('location').longitude]
+                upoi_coor = [upoi.latitude, upoi.longitude]
 
                 if near_u_poi(center, upoi_coor):
                     is_new = False
@@ -124,7 +129,13 @@ class newPoisFindingBolt(SimpleBolt):
                                                      near_pois=pois,
                                                      cluster_type=cluster_type
                                                      )
-
+                redis_dao.insert_upoi(poi_coordinate[0],
+                                      poi_coordinate[1],
+                                      upoi_evidences['u_poi'].id,
+                                      uid,
+                                      cluster_type,
+                                      poi['address']
+                                      )
             upoi_evidences['evidences'] = evidences
 
             # SAVE marked_UserLocation

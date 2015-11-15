@@ -21,7 +21,7 @@ USER_LOCATIONS_TEST = (
 ul_num=0
 ts_start = time_utils.ts_days_before_begin(days=4, in_mil_sec=True)
 ts_end = time_utils.ts_days_before_begin(days=0, in_mil_sec=True)
-uid='5642facd60b28045db04b6a3'
+uid='5624da0960b27457e89bff13'
 uls=mongo_dao.get_user_location_by_uid_time('test spout',uid,ts_start,ts_end)
 uls_time=sorted(uls, key=lambda k: k.get('timestamp'))
 

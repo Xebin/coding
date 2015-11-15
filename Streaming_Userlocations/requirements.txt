@@ -8,3 +8,5 @@ pytz
 
 leancloud-sdk
 pymongo
+redis
+redisco
