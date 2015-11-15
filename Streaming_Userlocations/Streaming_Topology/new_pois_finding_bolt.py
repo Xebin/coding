@@ -41,7 +41,7 @@ class newPoisFindingBolt(SimpleBolt):
             u_pois=redis_dao.get_upois(userId)
             if len(u_pois)==0:
                 u_pois = av_dao.get_user_u_pois(userId, CLUSTER_TYPE_STORM_POI_BASED)
-                redis_dao.insert_upois(u_pois)
+                redis_dao.insert_upois(userId,u_pois)
                 u_pois=redis_dao.get_upois(userId)
 
             new_center_evidences_list = self.__filter_existed_centers(center_uls_list,u_pois)
