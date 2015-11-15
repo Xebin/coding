@@ -1,7 +1,10 @@
 __author__ = 'xebin'
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 import redisco
 from redisco import models
+
 # r = redis.StrictRedis(host='120.27.30.239',port='6379')
 # pool = redis.ConnectionPool(host='120.27.30.239', port=6379, db=0)
 # r = redis.Redis(connection_pool=pool)
@@ -28,7 +31,10 @@ def insert_upois (userid,upois):
                         cluster_type=upoione.get('cluster_type'),
                         poi_address=upoione.get('poi_address')
                         )
-        upoi.save()
+        try:
+            upoi.save()
+        except Exception:
+            upoi.save()
 
 def insert_upoi(lat,lng,upoi_id,uid,clusterType,upoi_add):
         upoi=Upoi(latitude=lat,
