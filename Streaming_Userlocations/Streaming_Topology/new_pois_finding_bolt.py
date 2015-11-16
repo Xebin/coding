@@ -113,11 +113,12 @@ class newPoisFindingBolt(SimpleBolt):
                                                      near_pois=None,
                                                      cluster_type=cluster_type
                                                      )
-                log.warn_no_poi_u_poi(request_id, upoi_evidences['u_poi'].id)
+                # log.warn_no_poi_u_poi(request_id, upoi_evidences['u_poi'].id)
 
             else:
                 poi = pois[0] # nearest poi
                 poi_coordinate = [poi['location']['latitude'], poi['location']['latitude']]
+                log.debug('--poi coordinate to save .:'+str(poi['location']['latitude']))
 
                 upoi_evidences['u_poi'] = av_dao.save_u_poi(coordinate=coordinate,
                                                      user_id=uid,
@@ -129,8 +130,8 @@ class newPoisFindingBolt(SimpleBolt):
                                                      near_pois=pois,
                                                      cluster_type=cluster_type
                                                      )
-                redis_dao.insert_upoi(poi_coordinate[0],
-                                      poi_coordinate[1],
+                redis_dao.insert_upoi(coordinate[0],
+                                      coordinate[1],
                                       upoi_evidences['u_poi'].id,
                                       uid,
                                       cluster_type,

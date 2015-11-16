@@ -242,7 +242,7 @@ def save_u_poi(coordinate, user_id, poi_label, poi_type, poi_title, poi_address,
 
     # Unfortunately, AV only allow one geopoint for one object
     if poi_coordinate != None:
-        poi_point = {"latitude": poi_coordinate[0], "longitude": poi_coordinate[1]}
+        poi_point = {"longitude": poi_coordinate[1],"latitude": poi_coordinate[0]}
         u_poi.set('poi_location', poi_point)
     else:
         u_poi.set('poi_location', None)
