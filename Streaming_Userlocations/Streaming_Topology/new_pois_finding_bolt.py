@@ -118,7 +118,7 @@ class newPoisFindingBolt(SimpleBolt):
             else:
                 poi = pois[0] # nearest poi
                 poi_coordinate = [poi['location']['latitude'], poi['location']['longitude']]
-                log.debug('--poi coordinate to save .:'+str(poi['location']['latitude']))
+                log.debug('--new upoi to save .:'+str(poi['location']['latitude']))
 
                 upoi_evidences['u_poi'] = av_dao.save_u_poi(coordinate=coordinate,
                                                      user_id=uid,
