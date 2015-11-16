@@ -47,9 +47,20 @@ def insert_upoi(lat,lng,upoi_id,uid,clusterType,upoi_add):
         upoi.save()
 
 
-def get_upois(uid):
+
+def get_upois_uid(uid):
     upois=Upoi.objects.filter(user_id=uid)
     return upois
+
+def get_upois_cluster_type(clusterType):
+    upois=Upoi.objects.filter(cluster_type=clusterType)
+    return upois
+
+def get_upois_By_uid_cluster_type(uid,clusterType):
+    upois=Upoi.objects.filter(cluster_type=clusterType,user_id=uid)
+    return upois
+
+
 #
 # if __name__=="__main__":
 #     # from .. import config as conf

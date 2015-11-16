@@ -243,9 +243,9 @@ def save_u_poi(coordinate, user_id, poi_label, poi_type, poi_title, poi_address,
     # Unfortunately, AV only allow one geopoint for one object
     if poi_coordinate != None:
         poi_point = {"longitude": poi_coordinate[1],"latitude": poi_coordinate[0]}
-        u_poi.set('poi_location', poi_point)
+        u_poi.set('poi_loc', poi_point)
     else:
-        u_poi.set('poi_location', None)
+        u_poi.set('poi_loc', None)
 
     u_poi.set('near_pois', near_pois)
 
@@ -340,15 +340,40 @@ def get_near_poi(user_id, timestamp, coordinate):
     return content_dict['results']['parse_poi'][0]['pois'], request_id
 
 
+# # vote nearrest upoi####
+# def get_near_pois(center,uls):
+#     upois_dis=[]
+#     ups=[]
+#     upois=[]
+#     for ul in uls:
+#         ul_pois=ul['pois']['pois']
+#         ul_pois=sorted(ul_pois,key=lambda k:k['_distance'] )
+#         upois.append(ul_pois[0])
+#         # if len(ul_pois)>1:
+#         #    upois.append(ul_pois[1])
+#     for upoi in upois:
+#         coor=[upoi['location']['latitude'],upoi['location']['longitude']]
+#         dis=algo_utils.geo_distance_km(center,coor)
+#         upois_dis.append([upoi,dis])
+#     upois_dis=sorted(upois_dis, key=lambda k: k[1])
+#     for up in upois_dis:
+#         ups.append(up[0])
+#     ups=ups[0:param.CLUSTER_NEAR_POI_NUMBER]
+#     return ups
+
 # vote nearrest upoi####
 def get_near_pois(center,uls):
     upois_dis=[]
     ups=[]
     upois=[]
     for ul in uls:
-        upois.append(ul['pois']['pois'][0])
-        if len(ul['pois']['pois'])>1:
-           upois.append(ul['pois']['pois'][1])
+        ul_pois=ul['pois']['pois']
+        ul_pois=sorted(ul_pois,key=lambda k:k['_distance'] )
+        upois.append(ul_pois[0])
+        if len(ul_pois)>1:
+            upois.append(ul_pois[1])
+    upois=upois_dereplication(upois)
+
     for upoi in upois:
         coor=[upoi['location']['latitude'],upoi['location']['longitude']]
         dis=algo_utils.geo_distance_km(center,coor)
@@ -358,6 +383,13 @@ def get_near_pois(center,uls):
         ups.append(up[0])
     ups=ups[0:param.CLUSTER_NEAR_POI_NUMBER]
     return ups
+
+def upois_dereplication(upois):
+    upois_derep=[]
+    for upoi in upois:
+        if upoi not in upois_derep:
+            upois_derep.append(upoi)
+    return upois_derep
 
 def get_marked_UserLocation(u_poi_id, limit=100):
     upoi_p = get_pointer('u_poi', u_poi_id)

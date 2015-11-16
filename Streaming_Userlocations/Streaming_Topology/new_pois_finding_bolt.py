@@ -38,11 +38,11 @@ class newPoisFindingBolt(SimpleBolt):
             log.debug('all_center--:'+str(center))
 
             # filter existing u_poi
-            u_pois=redis_dao.get_upois(userId)
+            u_pois=redis_dao.get_upois_By_uid_cluster_type(userId,CLUSTER_TYPE_STORM_POI_BASED)
             if len(u_pois)==0:
                 u_pois = av_dao.get_user_u_pois(userId, CLUSTER_TYPE_STORM_POI_BASED)
                 redis_dao.insert_upois(userId,u_pois)
-                u_pois=redis_dao.get_upois(userId)
+                u_pois=redis_dao.get_upois_By_uid_cluster_type(userId,CLUSTER_TYPE_STORM_POI_BASED)
 
             new_center_evidences_list = self.__filter_existed_centers(center_uls_list,u_pois)
 
@@ -117,7 +117,7 @@ class newPoisFindingBolt(SimpleBolt):
 
             else:
                 poi = pois[0] # nearest poi
-                poi_coordinate = [poi['location']['latitude'], poi['location']['latitude']]
+                poi_coordinate = [poi['location']['latitude'], poi['location']['longitude']]
                 log.debug('--poi coordinate to save .:'+str(poi['location']['latitude']))
 
                 upoi_evidences['u_poi'] = av_dao.save_u_poi(coordinate=coordinate,
