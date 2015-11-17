@@ -158,7 +158,7 @@ def saveMarkedUserLocation(request_id,
     data = {
         'u_poi_id': u_poi_id,
         'u_poi_visit_id': u_poi_visit_log_id,
-        'user_location':DBRef('UserLocation',ObjectId(user_location_id)),
+        'user_location':user_location_id,
         'timestamp': timestamp,
         # TODO save location data
         # 2d sphere
