@@ -143,7 +143,7 @@ class newPoisFindingBolt(SimpleBolt):
             # mark cluster
             for user_location in upoi_evidences['evidences']:
                 mongo_dao.saveMarkedUserLocation(request_id,
-                                             user_location_id=user_location.get('_id'),
+                                             user_location_id=user_location.get('objectId'),
                                              timestamp=user_location.get('timestamp'),
                                              geo_point=user_location.get('location'),
                                              u_poi_id=upoi_evidences['u_poi'].id
