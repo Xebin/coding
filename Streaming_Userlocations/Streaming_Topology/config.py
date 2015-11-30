@@ -5,10 +5,10 @@ import os
 BASE_PATH = '/stalker/'
 
 AV_PROD_ID = 'u7jwfvuoi3to87qtkmurvxgjdm5tmzvgpooo0d8wfm0dfdko'
-AV_DEV_ID = 'm9wsdwyjnlo10b7zupagvh5wbmcdl8r91jfba1z8tov7ohv1'
+AV_DEV_ID = 'pin72fr1iaxb7sus6newp250a4pl2n5i36032ubrck4bej81'
 
 AV_PROD_KEY = 'w6llno78ayu4fewyvgwr6h3v7zjqpz4g262g4htrtvw7jgdg'
-AV_DEV_KEY = '3selmb59l5mrymdr6l8tkuxmk7uran2gbq3v1yes9a7oe16y'
+AV_DEV_KEY = 'qs4o5iiywp86eznvok4tmhul360jczk7y67qj0ywbcq35iia'
 
 LOGENTRIES_PROD_TOKEN = '686edabb-a540-4311-971c-82c07dccc249'
 LOGENTRIES_DEV_TOKEN = 'cb115439-11d2-4bd2-9e17-bc58c3de8c47'
@@ -28,7 +28,12 @@ MOTION_PREDICTION = 'http://senz-senz-analyzer-motion.daoapp.io/motion_pred_ss_c
 FIRE_BASE_URL = 'https://senz.firebaseio.com/'
 FIRE_BASE_TOKEN = 'oc9zF5skwsmCdprB7CMpd7joikGUXpyBBGPbuPPd'
 
-#test
+# #test
+# AV_KEY = AV_PROD_KEY
+# AV_ID = AV_PROD_ID
+
+
+#timeline
 AV_KEY = AV_PROD_KEY
 AV_ID = AV_PROD_ID
 

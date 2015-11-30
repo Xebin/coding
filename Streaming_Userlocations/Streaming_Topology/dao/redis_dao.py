@@ -9,7 +9,7 @@ from redisco import models
 # pool = redis.ConnectionPool(host='120.27.30.239', port=6379, db=0)
 # r = redis.Redis(connection_pool=pool)
 #
-redisco.connection_setup(host='localhost', port=6379, db=0)
+redisco.connection_setup(host='localhost', port=6379, db=7)
 
 
 class Upoi(models.Model):

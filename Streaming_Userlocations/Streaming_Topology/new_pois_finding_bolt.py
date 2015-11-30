@@ -21,7 +21,7 @@ class newPoisFindingBolt(SimpleBolt):
         duration=ts_end-ts_start
         sample_num=len(bucket_time)
         sample_coordinates=[]
-        log.debug('timebucket--get--num:'+str(len(bucket_time))+'---duration--: '+str(duration))
+        log.debug('timestamp:'+str(ts_end)+'--timebucket--get--num:'+str(len(bucket_time))+'---duration--: '+str(duration))
 
         if duration>STORM_POI_DURATION_LIMIT-10*60*1000 and sample_num>STORM_POI_SAMPLES_BUCKET_NUMBER :
             centers = np.zeros((2), dtype=np.float)

@@ -20,25 +20,50 @@ firebase = firebase.FirebaseApplication(config.FIRE_BASE_URL,
                                         None)
 from geopy.distance import vincenty
 
-UPoiVisitLog = Object.extend('u_poi_visit_log')
-UPoi = Object.extend('u_poi')
-_User = Object.extend('_User')
+# UPoiVisitLog = Object.extend('u_poi_visit_log')
+# UPoi = Object.extend('u_poi')
+# _User = Object.extend('_User')
+# UserTrace = Object.extend('user_trace')
+# UserLocation = Object.extend('UserLocation')
+# UserMotion = Object.extend('UserMotion')
+# MarkedUserLocation = Object.extend('marked_UserLocation')
+# UserProfile = Object.extend('user_profile_location_analysis')
+#
+# class_map = {
+#     'u_poi_visit_log': UPoiVisitLog,
+#     'u_poi': UPoi,
+#     'user': _User,
+#     'user_trace': UserTrace,
+#     'UserLocation': UserLocation,
+#     'marked_UserLocation': MarkedUserLocation,
+#     'user_profile_location_analysis': UserProfile
+# }
+
+
 UserTrace = Object.extend('user_trace')
+MarkedUserLocation = Object.extend('marked_UserLocation')
+
+UPoiVisitLog = Object.extend('UPoiVisitLog')
+UPoi = Object.extend('UPoi')
+_User = Object.extend('_User')
+
 UserLocation = Object.extend('UserLocation')
 UserMotion = Object.extend('UserMotion')
-MarkedUserLocation = Object.extend('marked_UserLocation')
-UserProfile = Object.extend('user_profile_location_analysis')
+
+# UserProfile = Object.extend('user_profile_location_analysis')
+UserProfile = Object.extend('UserProfileLocationAnalysis')
+HomeOfficeStatus = Object.extend('HomeOfficeStatus')
 
 class_map = {
     'u_poi_visit_log': UPoiVisitLog,
     'u_poi': UPoi,
     'user': _User,
-    'user_trace': UserTrace,
     'UserLocation': UserLocation,
     'marked_UserLocation': MarkedUserLocation,
-    'user_profile_location_analysis': UserProfile
+    'user_profile_location_analysis': UserProfile,
+    'home_office_status': HomeOfficeStatus,
+    'user_trace': UserTrace
 }
-
 
 def __get_u_poi_pointer(u_poi_id):
     u_poi = UPoi()
