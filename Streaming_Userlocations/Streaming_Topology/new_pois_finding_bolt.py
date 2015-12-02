@@ -8,6 +8,8 @@ from dao import av_dao,mongo_dao,redis_dao
 log = logging.getLogger("new_poi_find_Bolt")
 from utils.algo_utils import near_u_poi
 from utils import algo_utils
+import operator
+
 class newPoisFindingBolt(SimpleBolt):
 
     OUTPUT_FIELDS = ["userId", "bucket"]
@@ -93,7 +95,7 @@ class newPoisFindingBolt(SimpleBolt):
             else:
                 poi_title=None
 
-
+            street_info = self.__get_street_info(evidences)
             # Save new u_poi
             upoi_evidences = {}
             # get poi -> u_poi
@@ -130,6 +132,28 @@ class newPoisFindingBolt(SimpleBolt):
                                                      near_pois=pois,
                                                      cluster_type=cluster_type
                                                      )
+
+                upoi_evidences['u_poi'] = av_dao.save_u_poi(coordinate=coordinate,
+                                                    user_id=uid,
+                                                    poi_label=poi_label,
+                                                    poi_type=poi_type,
+                                                    poi_title=poi_title,
+                                                    poi_address=poi_address,
+                                                    poi_coordinate=poi_coordinate,
+                                                    near_pois=near_pois,
+                                                    street_number=street_info['street_number'],
+                                                    street=street_info['street'],
+                                                    district=street_info['district'],
+                                                    city=street_info['city'],
+                                                    province=street_info['province'],
+                                                    nation=street_info['nation'],
+                                                    cluster_type=cluster_type
+                                                    )
+
+
+
+
+
                 redis_dao.insert_upoi(coordinate[0],
                                       coordinate[1],
                                       upoi_evidences['u_poi'].id,
@@ -153,6 +177,41 @@ class newPoisFindingBolt(SimpleBolt):
             new_u_poi_ids.append(upoi_evidences['u_poi'].id)
 
         return new_u_poi_ids
+
+
+    def __get_street_info(self,user_locations):
+        street = self.__vote_key(user_locations, 'street')
+        city = self.__vote_key(user_locations, 'city')
+        province = self.__vote_key(user_locations, 'province')
+        street_number = self.__vote_key(user_locations, 'street_number')
+        district = self.__vote_key(user_locations, 'district')
+        nation = self.__vote_key(user_locations, 'nation')
+
+        return {
+            'street_number': street_number,
+            'street': street,
+            'district': district,
+            'city': city,
+            'province': province,
+            'nation': nation
+        }
+
+
+    def __vote_key(self,arr, key):
+        d = {}
+        for ele in arr:
+            data = None
+            if key in ele:
+                data = ele[key]
+            if data not in d:
+                d[data] = 0
+            d[data] += 1
+
+        winner = max(d.iteritems(), key=operator.itemgetter(1))[0]
+
+        return winner
+
+
 
 if __name__ == '__main__':
     import config as conf

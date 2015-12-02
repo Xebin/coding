@@ -10,6 +10,7 @@ from redisco import models
 # r = redis.Redis(connection_pool=pool)
 #
 redisco.connection_setup(host='localhost', port=6379, db=7)
+# 182.92.72.69
 
 
 class Upoi(models.Model):
@@ -62,19 +63,19 @@ def get_upois_By_uid_cluster_type(uid,clusterType):
 
 
 #
-# if __name__=="__main__":
-#     # from .. import config as conf
-#     import leancloud
-#     leancloud.init('u7jwfvuoi3to87qtkmurvxgjdm5tmzvgpooo0d8wfm0dfdko', 'w6llno78ayu4fewyvgwr6h3v7zjqpz4g262g4htrtvw7jgdg')
-#
-#     user_id='5624da0960b27457e89bff13'
-#     upois = av_dao.get_user_u_pois(user_id,'storm_poi_based')
-#     # print str(upois[0].get('location').latitude)
-#
-#     insert_upois(user_id,upois)
-#
-#     ups=get_upois(user_id)
-#     for up in ups:
-#         print "upoiid:"+str(up)
-#         # up.delete()
+if __name__=="__main__":
+    # from .. import config as conf
+    # import leancloud
+    # leancloud.init('u7jwfvuoi3to87qtkmurvxgjdm5tmzvgpooo0d8wfm0dfdko', 'w6llno78ayu4fewyvgwr6h3v7zjqpz4g262g4htrtvw7jgdg')
+    #
+    # user_id='5624da0960b27457e89bff13'
+    # upois = av_dao.get_user_u_pois(user_id,'storm_poi_based')
+    # # print str(upois[0].get('location').latitude)
+    #
+    # insert_upois(user_id,upois)
+    #
+    ups=get_upois_cluster_type('storm_poi_based')
+    for up in ups:
+        print "upoiid:"+str(up)
+        # up.delete()
 

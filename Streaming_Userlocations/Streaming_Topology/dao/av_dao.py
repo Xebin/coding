@@ -250,7 +250,9 @@ def get_last_visit_log(u_poi_id):
         return None
 
 
-def save_u_poi(coordinate, user_id, poi_label, poi_type, poi_title, poi_address, poi_coordinate, near_pois,
+def save_u_poi(coordinate, user_id,
+               poi_label, poi_type, poi_title, poi_address, poi_coordinate, near_pois,
+               street_number, street, district, city, province, nation,
                cluster_type):
     u_poi = UPoi()
     # up = __get_user_pointer(user_id)
@@ -266,19 +268,61 @@ def save_u_poi(coordinate, user_id, poi_label, poi_type, poi_title, poi_address,
     u_poi.set('poi_address', poi_address)
 
     # Unfortunately, AV only allow one geopoint for one object
+    # Strange bug, if the column name is poi_location a exception will raise
+    # Temp solution rename poi_location to poi_loc
     if poi_coordinate != None:
-        poi_point = {"longitude": poi_coordinate[1],"latitude": poi_coordinate[0]}
+        poi_point = {"latitude": poi_coordinate[0], "longitude": poi_coordinate[1]}
+        # u_poi.set('poi_location', poi_point)
         u_poi.set('poi_loc', poi_point)
     else:
         u_poi.set('poi_loc', None)
 
     u_poi.set('near_pois', near_pois)
 
-    u_poi.set('cluster_type', cluster_type)
+    u_poi.set('street_number', street_number)
+    u_poi.set('street', street)
+    u_poi.set('district', district)
+    u_poi.set('city', city)
+    u_poi.set('province', province)
+    u_poi.set('nation', nation)
 
+    u_poi.set('cluster_type', cluster_type)
+    u_poi.set('timestamp',time_utils.ts_now())
     # u_poi.save()
+
     av_utils.safe_save(u_poi)
     return u_poi
+
+
+# def save_u_poi(coordinate, user_id, poi_label, poi_type, poi_title, poi_address, poi_coordinate, near_pois,
+#                cluster_type):
+#     u_poi = UPoi()
+#     # up = __get_user_pointer(user_id)
+#     up = get_pointer('user', user_id)
+#     u_poi.set('user', up)
+#
+#     point = GeoPoint(latitude=coordinate[0], longitude=coordinate[1])
+#     u_poi.set('location', point)
+#
+#     u_poi.set('poi_label', poi_label)
+#     u_poi.set('poi_type', poi_type)
+#     u_poi.set('poi_title', poi_title)
+#     u_poi.set('poi_address', poi_address)
+#
+#     # Unfortunately, AV only allow one geopoint for one object
+#     if poi_coordinate != None:
+#         poi_point = {"longitude": poi_coordinate[1],"latitude": poi_coordinate[0]}
+#         u_poi.set('poi_loc', poi_point)
+#     else:
+#         u_poi.set('poi_loc', None)
+#
+#     u_poi.set('near_pois', near_pois)
+#
+#     u_poi.set('cluster_type', cluster_type)
+#     u_poi.set('timestamp',time_utils.ts_now())
+#     # u_poi.save()
+#     av_utils.safe_save(u_poi)
+#     return u_poi
 
 
 def save_u_poi_visit_log(visit_time, user_id, u_poi_id, avg_start, avg_end, avg_duration,
