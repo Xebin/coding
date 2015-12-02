@@ -129,26 +129,31 @@ class newPoisFindingBolt(SimpleBolt):
                                                      poi_title=poi['title'],
                                                      poi_address=poi['address'],
                                                      poi_coordinate=poi_coordinate,
-                                                     near_pois=pois,
+                                                     near_pois=pois,                                                                                                          street_number=street_info['street_number'],
+                                                     street=street_info['street'],
+                                                     district=street_info['district'],
+                                                     city=street_info['city'],
+                                                     province=street_info['province'],
+                                                     nation=street_info['nation'],
                                                      cluster_type=cluster_type
                                                      )
 
-                upoi_evidences['u_poi'] = av_dao.save_u_poi(coordinate=coordinate,
-                                                    user_id=uid,
-                                                    poi_label=poi_label,
-                                                    poi_type=poi_type,
-                                                    poi_title=poi_title,
-                                                    poi_address=poi_address,
-                                                    poi_coordinate=poi_coordinate,
-                                                    near_pois=near_pois,
-                                                    street_number=street_info['street_number'],
-                                                    street=street_info['street'],
-                                                    district=street_info['district'],
-                                                    city=street_info['city'],
-                                                    province=street_info['province'],
-                                                    nation=street_info['nation'],
-                                                    cluster_type=cluster_type
-                                                    )
+                # upoi_evidences['u_poi'] = av_dao.save_u_poi(coordinate=coordinate,
+                #                                     user_id=uid,
+                #                                     poi_label=poi_label,
+                #                                     poi_type=poi_type,
+                #                                     poi_title=poi_title,
+                #                                     poi_address=poi_address,
+                #                                     poi_coordinate=poi_coordinate,
+                #                                     near_pois=near_pois,
+                #                                     street_number=street_info['street_number'],
+                #                                     street=street_info['street'],
+                #                                     district=street_info['district'],
+                #                                     city=street_info['city'],
+                #                                     province=street_info['province'],
+                #                                     nation=street_info['nation'],
+                #                                     cluster_type=cluster_type
+                #                                     )
 
 
 
