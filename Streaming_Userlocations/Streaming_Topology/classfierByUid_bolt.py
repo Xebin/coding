@@ -7,6 +7,7 @@ from pyleus.storm import SimpleBolt
 from parameters import STORM_POI_USERS
 
 log = logging.getLogger("classifierById")
+null=None
 
 class classifierByUid(SimpleBolt):
     OUTPUT_FIELDS = ["userId", "ul"]
@@ -14,7 +15,7 @@ class classifierByUid(SimpleBolt):
     def process_tuple(self, tup):
         _user_id,_raw_data_str = tup.values
         # _raw_data_dict = json.loads(_raw_data_str)
-
+        global null
         log.debug(str(_user_id)+'---get to classifier----stmp:'+str(_raw_data_str['timestamp']))
         # _user_id  = _raw_data_dict["user_id"]
         userlocation = _raw_data_str
