@@ -437,16 +437,17 @@ def get_near_pois(center,uls):
     upois=[]
     for ul in uls:
         ul_pois=ul['pois']['pois']
-        ul_pois=sorted(ul_pois,key=lambda k:k['_distance'] )
+        ul_pois=sorted(ul_pois,key=lambda k:k.get('_distance') )
         upois.append(ul_pois[0])
         if len(ul_pois)>1:
             upois.append(ul_pois[1])
     upois=upois_dereplication(upois)
 
     for upoi in upois:
-        coor=[upoi['location']['latitude'],upoi['location']['longitude']]
-        dis=algo_utils.geo_distance_km(center,coor)
-        upois_dis.append([upoi,dis])
+        if upoi.get('location')!=None:
+            coor=[upoi['location']['latitude'],upoi['location']['longitude']]
+            dis=algo_utils.geo_distance_km(center,coor)
+            upois_dis.append([upoi,dis])
     upois_dis=sorted(upois_dis, key=lambda k: k[1])
     for up in upois_dis:
         ups.append(up[0])
