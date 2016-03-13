@@ -19,7 +19,7 @@ topology:
             # ZooKeeper connection string. Comma-separated list of ZooKeeper
             # servers.
             # Required.
-            zk_hosts: 119.254.111.40:2181/kafka/q-63lnrnga
+            zk_hosts: ip:2181/kafka/q-63lnrnga
 
             # Root path in ZooKeeper to store consumer offsets.
             # Defaults to: /pyleus-kafka-offsets/<topology name>
