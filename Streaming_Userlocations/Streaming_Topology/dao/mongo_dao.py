@@ -8,7 +8,7 @@ from bson.dbref import DBRef
 from pymongo.son_manipulator import AutoReference, NamespaceInjector
 
 # client = MongoClient('119.254.111.40', 27017)
-client = MongoClient('mongodb://root:Senz2everyone@119.254.111.40')
+client = MongoClient('mongodb://root:Senz2everyone@ip')
 db = client.RefinedLog
 
 
