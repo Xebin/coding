@@ -5,8 +5,8 @@ sys.setdefaultencoding('utf8')
 import redisco
 from redisco import models
 
-# r = redis.StrictRedis(host='120.27.30.239',port='6379')
-# pool = redis.ConnectionPool(host='120.27.30.239', port=6379, db=0)
+# r = redis.StrictRedis(host='ip',port='6379')
+# pool = redis.ConnectionPool(host='ip', port=6379, db=0)
 # r = redis.Redis(connection_pool=pool)
 #
 redisco.connection_setup(host='localhost', port=6379, db=7)
